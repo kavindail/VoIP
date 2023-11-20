@@ -1,9 +1,9 @@
-##Voice Over Internet Protocol
-##Backlog
+## Voice Over Internet Protocol
 
-** Server (Speaker) **: source of audio stream. server captures audio data, encodes it using a codec to reduce its size, then sends it over the network to clients.
+## Backlog
 
-** Clients (Listeners) **: recipients of audio stream. Each client receives the audio data from the server, decodes it, and plays the decoded audio.
+**Server (Speaker)**: source of audio stream. server captures audio data, encodes it using a codec to reduce its size, then sends it over the network to clients.
+**Clients (Listeners)**: recipients of audio stream. Each client receives the audio data from the server, decodes it, and plays the decoded audio.
 
 **Audio Encoding/Decoding (Codec) **:In VoIP, audio data is encoded to reduce its size for transmission, and then decoded on the client’s end.
 Common codecs for this purpose include AAC, MP3, Opus, and others.
