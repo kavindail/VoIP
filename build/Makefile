@@ -129,29 +129,66 @@ recordAudio/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/build
 .PHONY : recordAudio/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+#=============================================================================
+# Target rules for targets named playbackAudio
+
+# Build rule for target.
+playbackAudio: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 playbackAudio
+.PHONY : playbackAudio
+
+# fast build rule for target.
+playbackAudio/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/playbackAudio.dir/build.make CMakeFiles/playbackAudio.dir/build
+.PHONY : playbackAudio/fast
+
+PlaybackAudio.o: PlaybackAudio.cpp.o
+.PHONY : PlaybackAudio.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/main.cpp.o
-.PHONY : main.cpp.o
+PlaybackAudio.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/playbackAudio.dir/build.make CMakeFiles/playbackAudio.dir/PlaybackAudio.cpp.o
+.PHONY : PlaybackAudio.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+PlaybackAudio.i: PlaybackAudio.cpp.i
+.PHONY : PlaybackAudio.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/main.cpp.i
-.PHONY : main.cpp.i
+PlaybackAudio.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/playbackAudio.dir/build.make CMakeFiles/playbackAudio.dir/PlaybackAudio.cpp.i
+.PHONY : PlaybackAudio.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+PlaybackAudio.s: PlaybackAudio.cpp.s
+.PHONY : PlaybackAudio.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/main.cpp.s
-.PHONY : main.cpp.s
+PlaybackAudio.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/playbackAudio.dir/build.make CMakeFiles/playbackAudio.dir/PlaybackAudio.cpp.s
+.PHONY : PlaybackAudio.cpp.s
+
+RecordAudio.o: RecordAudio.cpp.o
+.PHONY : RecordAudio.o
+
+# target to build an object file
+RecordAudio.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/RecordAudio.cpp.o
+.PHONY : RecordAudio.cpp.o
+
+RecordAudio.i: RecordAudio.cpp.i
+.PHONY : RecordAudio.i
+
+# target to preprocess a source file
+RecordAudio.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/RecordAudio.cpp.i
+.PHONY : RecordAudio.cpp.i
+
+RecordAudio.s: RecordAudio.cpp.s
+.PHONY : RecordAudio.s
+
+# target to generate assembly for a file
+RecordAudio.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/recordAudio.dir/build.make CMakeFiles/recordAudio.dir/RecordAudio.cpp.s
+.PHONY : RecordAudio.cpp.s
 
 # Help Target
 help:
@@ -161,10 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... playbackAudio"
 	@echo "... recordAudio"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... PlaybackAudio.o"
+	@echo "... PlaybackAudio.i"
+	@echo "... PlaybackAudio.s"
+	@echo "... RecordAudio.o"
+	@echo "... RecordAudio.i"
+	@echo "... RecordAudio.s"
 .PHONY : help
 
 

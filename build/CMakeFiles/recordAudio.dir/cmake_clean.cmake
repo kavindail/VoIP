@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/recordAudio.dir/main.cpp.o"
-  "CMakeFiles/recordAudio.dir/main.cpp.o.d"
+  "CMakeFiles/recordAudio.dir/RecordAudio.cpp.o"
+  "CMakeFiles/recordAudio.dir/RecordAudio.cpp.o.d"
   "recordAudio"
   "recordAudio.pdb"
 )

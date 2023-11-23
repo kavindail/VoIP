@@ -1,3 +1,4 @@
 /Users/kavindail/BCIT/Client Server/VoiceOverIp/build/CMakeFiles/recordAudio.dir
+/Users/kavindail/BCIT/Client Server/VoiceOverIp/build/CMakeFiles/playbackAudio.dir
 /Users/kavindail/BCIT/Client Server/VoiceOverIp/build/CMakeFiles/edit_cache.dir
 /Users/kavindail/BCIT/Client Server/VoiceOverIp/build/CMakeFiles/rebuild_cache.dir

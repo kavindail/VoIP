@@ -69,28 +69,28 @@ include CMakeFiles/recordAudio.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/recordAudio.dir/flags.make
 
-CMakeFiles/recordAudio.dir/main.cpp.o: CMakeFiles/recordAudio.dir/flags.make
-CMakeFiles/recordAudio.dir/main.cpp.o: /Users/kavindail/BCIT/Client\ Server/VoiceOverIp/main.cpp
-CMakeFiles/recordAudio.dir/main.cpp.o: CMakeFiles/recordAudio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/kavindail/BCIT/Client Server/VoiceOverIp/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/recordAudio.dir/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/recordAudio.dir/main.cpp.o -MF CMakeFiles/recordAudio.dir/main.cpp.o.d -o CMakeFiles/recordAudio.dir/main.cpp.o -c "/Users/kavindail/BCIT/Client Server/VoiceOverIp/main.cpp"
+CMakeFiles/recordAudio.dir/RecordAudio.cpp.o: CMakeFiles/recordAudio.dir/flags.make
+CMakeFiles/recordAudio.dir/RecordAudio.cpp.o: /Users/kavindail/BCIT/Client\ Server/VoiceOverIp/RecordAudio.cpp
+CMakeFiles/recordAudio.dir/RecordAudio.cpp.o: CMakeFiles/recordAudio.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/kavindail/BCIT/Client Server/VoiceOverIp/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/recordAudio.dir/RecordAudio.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/recordAudio.dir/RecordAudio.cpp.o -MF CMakeFiles/recordAudio.dir/RecordAudio.cpp.o.d -o CMakeFiles/recordAudio.dir/RecordAudio.cpp.o -c "/Users/kavindail/BCIT/Client Server/VoiceOverIp/RecordAudio.cpp"
 
-CMakeFiles/recordAudio.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/recordAudio.dir/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/kavindail/BCIT/Client Server/VoiceOverIp/main.cpp" > CMakeFiles/recordAudio.dir/main.cpp.i
+CMakeFiles/recordAudio.dir/RecordAudio.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/recordAudio.dir/RecordAudio.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/kavindail/BCIT/Client Server/VoiceOverIp/RecordAudio.cpp" > CMakeFiles/recordAudio.dir/RecordAudio.cpp.i
 
-CMakeFiles/recordAudio.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/recordAudio.dir/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/kavindail/BCIT/Client Server/VoiceOverIp/main.cpp" -o CMakeFiles/recordAudio.dir/main.cpp.s
+CMakeFiles/recordAudio.dir/RecordAudio.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/recordAudio.dir/RecordAudio.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/kavindail/BCIT/Client Server/VoiceOverIp/RecordAudio.cpp" -o CMakeFiles/recordAudio.dir/RecordAudio.cpp.s
 
 # Object files for target recordAudio
 recordAudio_OBJECTS = \
-"CMakeFiles/recordAudio.dir/main.cpp.o"
+"CMakeFiles/recordAudio.dir/RecordAudio.cpp.o"
 
 # External object files for target recordAudio
 recordAudio_EXTERNAL_OBJECTS =
 
-recordAudio: CMakeFiles/recordAudio.dir/main.cpp.o
+recordAudio: CMakeFiles/recordAudio.dir/RecordAudio.cpp.o
 recordAudio: CMakeFiles/recordAudio.dir/build.make
 recordAudio: /opt/homebrew/Cellar/portaudio/19.7.0/lib/libportaudio.dylib
 recordAudio: CMakeFiles/recordAudio.dir/link.txt

@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/playbackAudio.dir/PlaybackAudio.cpp.o -o playbackAudio  /opt/homebrew/Cellar/portaudio/19.7.0/lib/libportaudio.dylib 
