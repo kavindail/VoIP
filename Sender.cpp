@@ -17,8 +17,8 @@ int main() {
     exit(1);
   }
   servaddr.sin_family = AF_INET;
-  servaddr.sin_port = htons(12345);
-  servaddr.sin_addr.s_addr = INADDR_ANY; // Equivelant of 0.0.0.0
+  servaddr.sin_port = 8083;
+  servaddr.sin_addr.s_addr = inet_addr("10.65.75.126"); // Equivelant of 0.0.0.0
 
   int len = sendto(sockfd, hello.c_str(), hello.size(), 0,
                    (const struct sockaddr *)&servaddr, sizeof(servaddr));

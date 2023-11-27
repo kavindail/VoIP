@@ -18,16 +18,19 @@ int main() {
     exit(1);
   }
   servaddr.sin_family = AF_INET;
-  servaddr.sin_port = htons(12345);
-  servaddr.sin_addr.s_addr = INADDR_ANY;
+  servaddr.sin_port = 8083;
+  // servaddr.sin_addr.s_addr = INADDR_ANY;
+  servaddr.sin_addr.s_addr = inet_addr("10.65.75.126"); // Equivelant of 0.0.0.0
 
-  int rc = bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr));
+  int rc = bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
 
   if (rc == -1) {
+    std::cout << rc << std::endl;
     std::cout << "Failed to bind " << std::endl;
     close(sockfd);
     exit(1);
   };
+
   socklen_t len = 0;
   int n = recvfrom(sockfd, (char *)buffer, 50, MSG_WAITALL, 0,
                    &len); // 0 here is the client address
