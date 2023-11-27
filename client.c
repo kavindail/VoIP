@@ -14,6 +14,7 @@ int main(int argc) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
   struct ip_mreq mreq;
+  int num = random();
   char buf[50];
   time_t t;
 
@@ -32,7 +33,7 @@ int main(int argc) {
 
   while (1) {
     t = time(0);
-    sprintf(buf, "time is %-24.24s", ctime(&t));
+    sprintf(buf, "this is socket %d", num);
     status =
         sendto(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, addrlen);
     if (status < 0) {
