@@ -8,13 +8,15 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <netinet/in.h>
+
 #define TRUE 1
 
 int main() {
   struct sockaddr_in addr;
   int addrlen, sock, status;
   struct ip_mreq mreq;
-  char buf[50];
+  char buf[1000];
   static int so_reuseaddr = TRUE;
 
   // Open a file for writing

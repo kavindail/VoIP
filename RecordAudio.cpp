@@ -29,12 +29,13 @@ static int recordCallback(const void *inputBuffer, void *outputBuffer,
 
   UserData *data = (UserData *)userData;
   const float *in = (const float *)inputBuffer;
-  data->outputFile->write((const char *)inputBuffer,
-                          framesPerBuffer * sizeof(float));
+  // data->outputFile->write((const char *)inputBuffer,
+  //                         framesPerBuffer * sizeof(float));
 
   sendDataToSocket((const char *)inputBuffer);
 
-  std::cout.write((const char *)inputBuffer, framesPerBuffer * sizeof(float));
+  // std::cout.write((const char *)inputBuffer, framesPerBuffer *
+  // sizeof(float));
 
   return paContinue;
 }

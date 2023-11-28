@@ -40,10 +40,10 @@ void sendDataToSocket(const char *inputBuffer) {
 
   /* Use the actual length of the data in buf */
   status = sendto(sock, buf, strlen(buf), 0, (struct sockaddr *)&addr, addrlen);
-  if (status < 0) {
-    perror("sendto");
-    exit(1);
-  }
+  // if (status < 0) {
+  //   perror("sendto");
+  //   exit(1);
+  // }
 
   close(sock); // Close the socket when done
 }
