@@ -1,5 +1,3 @@
-/*Multicast Receiver*/
-
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -18,6 +16,13 @@ int main() {
   struct ip_mreq mreq;
   char buf[50];
   static int so_reuseaddr = TRUE;
+
+  // Open a file for writing
+  FILE *outputFile = fopen("output.bin", "wb");
+  if (outputFile == NULL) {
+    perror("Error opening output.bin for writing");
+    exit(1);
+  }
 
   /* set up socket */
   sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -38,7 +43,7 @@ int main() {
     exit(1);
   }
 
-  /*bind Socket*/
+  /* bind Socket */
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
     perror("bind");
     exit(1);
@@ -47,14 +52,14 @@ int main() {
   mreq.imr_multiaddr.s_addr = inet_addr("230.0.0.1");
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 
-  /*Join the Multicast Group*/
+  /* Join the Multicast Group */
   if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) <
       0) {
     perror("setsockopt mreq");
     exit(1);
   }
 
-  /*receive messages destined for this multicast group*/
+  /* receive messages destined for this multicast group */
   while (1) {
     status =
         recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
@@ -63,8 +68,16 @@ int main() {
       exit(1);
     }
 
+    // Write the buffer contents to the file
+    fwrite(buf, sizeof(char), status, outputFile);
+
     printf("%s", buf);
     // inet_ntoa(addr.sin_addr)
     // String above is to print the ip address if needed
   }
+
+  // Close the file before exiting (this won't be reached in an infinite loop)
+  fclose(outputFile);
+
+  return 0;
 }
