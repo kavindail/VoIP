@@ -68,7 +68,6 @@ int main() {
       exit(1);
     }
 
-    // Write the buffer contents to the file
     fwrite(buf, sizeof(char), status, outputFile);
 
     printf("%s", buf);
@@ -76,7 +75,6 @@ int main() {
     // String above is to print the ip address if needed
   }
 
-  // Close the file before exiting (this won't be reached in an infinite loop)
   fclose(outputFile);
 
   return 0;
