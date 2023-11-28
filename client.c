@@ -36,8 +36,7 @@ void sendDataToSocket(const char *inputBuffer) {
   /* Copy the content of inputBuffer to buf */
   snprintf(buf, sizeof(buf), "%s", inputBuffer);
 
-  t = time(0);
-  printf("%s", buf);
+  // printf("%s", buf);
 
   /* Use the actual length of the data in buf */
   status = sendto(sock, buf, strlen(buf), 0, (struct sockaddr *)&addr, addrlen);
