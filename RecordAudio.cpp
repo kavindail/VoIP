@@ -1,3 +1,4 @@
+#include "client.h"
 #include "portaudio.h"
 #include <fstream>
 #include <iostream>
@@ -10,15 +11,17 @@ typedef struct {
 } UserData;
 
 /**
-*
-* After recording Audio create another function to transmit this data over UDP packets while the voice is coming out 
-*
-* Data will be sent with RTP protocol
-* On UDP packets
-*
-*/
+ *
+ * After recording Audio create another function to transmit this data over UDP
+ * packets while the voice is coming out
+ *
+ * Data will be sent with RTP protocol
+ * On UDP packets
+ *
+ */
 
-//Record callBack will stay largely the same except for writing the data live to the UDP socket as it comes in
+// Record callBack will stay largely the same except for writing the data live
+// to the UDP socket as it comes in
 static int recordCallback(const void *inputBuffer, void *outputBuffer,
                           unsigned long framesPerBuffer,
                           const PaStreamCallbackTimeInfo *timeInfo,
@@ -28,6 +31,8 @@ static int recordCallback(const void *inputBuffer, void *outputBuffer,
   const float *in = (const float *)inputBuffer;
   data->outputFile->write((const char *)inputBuffer,
                           framesPerBuffer * sizeof(float));
+
+  sendDataToSocket((const char *)inputBuffer);
 
   std::cout.write((const char *)inputBuffer, framesPerBuffer * sizeof(float));
 
