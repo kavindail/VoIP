@@ -29,6 +29,7 @@ static int recordCallback(const void *inputBuffer, void *outputBuffer,
 
   UserData *data = (UserData *)userData;
   const float *in = (const float *)inputBuffer;
+
   // data->outputFile->write((const char *)inputBuffer,
   //                         framesPerBuffer * sizeof(float));
 

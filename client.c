@@ -17,7 +17,7 @@
 void sendDataToSocket(const char *inputBuffer) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
-  char buf[10000];
+  char buf[100000];
   time_t t;
 
   /* set up socket */
