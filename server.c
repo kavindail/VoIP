@@ -59,7 +59,6 @@ int main() {
   }
 
   /* receive messages destined for this multicast group */
-  /* receive messages destined for this multicast group */
   while (1) {
     status =
         recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
