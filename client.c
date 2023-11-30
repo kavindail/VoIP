@@ -1,5 +1,4 @@
 /*Application that generates multicast messages*/
-
 #include "client.h"
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -14,11 +13,9 @@
 // Client is the program that sends data across the sockets
 // This is where data will be transmitted in UDP sockets across the server
 // int packetsSent = 0;
-void sendDataToSocket(const float *inputBuffer) {
+void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
-  char buf[3000];
-  time_t t;
 
   /* set up socket */
   sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -33,18 +30,13 @@ void sendDataToSocket(const float *inputBuffer) {
   addrlen = sizeof(addr);
   addr.sin_addr.s_addr = inet_addr("230.0.0.1");
 
-  /* Copy the content of inputBuffer to buf */
-  snprintf(buf, sizeof(buf), "%f", *inputBuffer);
-
-  // printf("%s", buf);
-
   /* Use the actual length of the data in buf */
-  status = sendto(sock, buf, strlen(buf), 0, (struct sockaddr *)&addr, addrlen);
-  // packetsSent++;
-  // if (status < 0) {
-  //   perror("sendto");
-  //   exit(1);
-  // }
-  // printf("%d\n", packetsSent);
-  close(sock); // Close the socket when done
+  status =
+      sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);
+  if (status < 0) {
+    perror("sendto");
+    exit(1);
+  }
+
+  close(sock);
 }

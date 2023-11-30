@@ -9,13 +9,11 @@
 
 #define TRUE 1
 
-int packetsReceived = 0;
 int main() {
-  printf("in server");
   struct sockaddr_in addr;
   int addrlen, sock, status;
   struct ip_mreq mreq;
-  char buf[3000];
+  char buf[500];
   static int so_reuseaddr = TRUE;
 
   // Open a file for writing
@@ -61,11 +59,10 @@ int main() {
   }
 
   /* receive messages destined for this multicast group */
+  /* receive messages destined for this multicast group */
   while (1) {
     status =
         recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
-    packetsReceived++;
-    printf("%d\n", packetsReceived);
 
     if (status < 0) {
       perror("recvfrom");
@@ -73,14 +70,15 @@ int main() {
     }
 
     // Write to file
-    char *charBuf = (char *)buf; // Cast buf to char*
-    if (fwrite(charBuf, sizeof(char), status, outputFile) != (size_t)status) {
-      perror("Error writing to file");
+    size_t written = fwrite(buf, sizeof(char), status, outputFile);
+    if (written != (size_t)status) {
+      printf("fwrite() failed: %zu of %d bytes written\n", written, status);
       exit(1);
     }
+    fflush(outputFile);
 
     // Print received data (binary) to console
-    fwrite(charBuf, sizeof(char), status, stdout);
+    fwrite(buf, sizeof(char), status, stdout);
   }
 
   fclose(outputFile);

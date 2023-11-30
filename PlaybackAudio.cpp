@@ -3,18 +3,9 @@
 #include <iostream>
 
 #define SAMPLE_RATE (44100)
-#define FRAMES_PER_BUFFER (512)
+#define LATENCY_MS (2)
+#define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 
-/**
- *
- * Change in the future to take in a socket address and this class will read the
- * socket line by line and play the voice data in real time
- *
- */
-
-// Instead of passing in a file name take in a UDP socket and begin reading and
-// decoding You will have to spot when packets have been transmitted and start
-// receiving
 void playRecordedAudio(const std::string &filename) {
   PaError err = Pa_Initialize();
   if (err != paNoError) {
