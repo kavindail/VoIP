@@ -16,14 +16,12 @@ int main() {
   char buf[500];
   static int so_reuseaddr = TRUE;
 
-  // Open a file for writing
   FILE *outputFile = fopen("output.bin", "wb");
   if (outputFile == NULL) {
     perror("Error opening output.bin for writing");
     exit(1);
   }
 
-  /* set up socket */
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
     perror("socket");
@@ -48,7 +46,7 @@ int main() {
     exit(1);
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr("230.0.0.1");
+  mreq.imr_multiaddr.s_addr = inet_addr("224.0.0.1");
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 
   /* Join the Multicast Group */
