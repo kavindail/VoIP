@@ -2,7 +2,7 @@
 extern "C" {
 #endif
 
-void sendDataToSocket(const char *inputBuffer);
+void sendDataToSocket(const float *inputBuffer);
 
 #ifdef __cplusplus
 }

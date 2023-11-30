@@ -3,22 +3,15 @@
 #include <fstream>
 #include <iostream>
 
+// May need to change the sampling rate
 #define SAMPLE_RATE (44100)
-#define FRAMES_PER_BUFFER (512)
+
+#define LATENCY_MS (100)
+#define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 
 typedef struct {
-  std::ofstream *outputFile;
+  // std::ofstream *outputFile;  // Commented out this line
 } UserData;
-
-/**
- *
- * After recording Audio create another function to transmit this data over UDP
- * packets while the voice is coming out
- *
- * Data will be sent with RTP protocol
- * On UDP packets
- *
- */
 
 // Record callBack will stay largely the same except for writing the data live
 // to the UDP socket as it comes in
@@ -33,7 +26,7 @@ static int recordCallback(const void *inputBuffer, void *outputBuffer,
   // data->outputFile->write((const char *)inputBuffer,
   //                         framesPerBuffer * sizeof(float));
 
-  sendDataToSocket((const char *)inputBuffer);
+  sendDataToSocket((const float *)inputBuffer);
 
   // std::cout.write((const char *)inputBuffer, framesPerBuffer *
   // sizeof(float));
@@ -69,10 +62,10 @@ int main() {
   inputParameters.hostApiSpecificStreamInfo = NULL;
 
   // Create an output file for writing binary data
-  std::ofstream outputFile("output.bin", std::ios::binary);
+  // std::ofstream outputFile("output.bin", std::ios::binary); // Commented out this line
 
   // Create user data structure and associate the output file with it
-  UserData userData = {&outputFile};
+  UserData userData = { /*&outputFile*/ };  // Commented out this line
 
   // Open a PortAudio stream with the specified parameters and callback function
   err = Pa_OpenStream(&stream, &inputParameters, NULL, SAMPLE_RATE,
@@ -105,7 +98,7 @@ int main() {
   }
 
   // Close the output file
-  outputFile.close();
+  // outputFile.close();  // Commented out this line
 
   Pa_Terminate();
   std::cout << "Recording finished." << std::endl;

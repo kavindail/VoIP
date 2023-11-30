@@ -9,11 +9,13 @@
 
 #define TRUE 1
 
+int packetsReceived = 0;
 int main() {
+  printf("in server");
   struct sockaddr_in addr;
   int addrlen, sock, status;
   struct ip_mreq mreq;
-  char buf[100000];
+  char buf[3000];
   static int so_reuseaddr = TRUE;
 
   // Open a file for writing
@@ -62,19 +64,23 @@ int main() {
   while (1) {
     status =
         recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
+    packetsReceived++;
+    printf("%d\n", packetsReceived);
+
     if (status < 0) {
       perror("recvfrom");
       exit(1);
     }
 
     // Write to file
-    if (fwrite(buf, sizeof(char), status, outputFile) != (size_t)status) {
+    char *charBuf = (char *)buf; // Cast buf to char*
+    if (fwrite(charBuf, sizeof(char), status, outputFile) != (size_t)status) {
       perror("Error writing to file");
       exit(1);
     }
 
     // Print received data (binary) to console
-    fwrite(buf, sizeof(char), status, stdout);
+    fwrite(charBuf, sizeof(char), status, stdout);
   }
 
   fclose(outputFile);

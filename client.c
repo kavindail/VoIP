@@ -13,11 +13,11 @@
 
 // Client is the program that sends data across the sockets
 // This is where data will be transmitted in UDP sockets across the server
-
-void sendDataToSocket(const char *inputBuffer) {
+// int packetsSent = 0;
+void sendDataToSocket(const float *inputBuffer) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
-  char buf[100000];
+  char buf[3000];
   time_t t;
 
   /* set up socket */
@@ -34,16 +34,17 @@ void sendDataToSocket(const char *inputBuffer) {
   addr.sin_addr.s_addr = inet_addr("230.0.0.1");
 
   /* Copy the content of inputBuffer to buf */
-  snprintf(buf, sizeof(buf), "%s", inputBuffer);
+  snprintf(buf, sizeof(buf), "%f", *inputBuffer);
 
   // printf("%s", buf);
 
   /* Use the actual length of the data in buf */
   status = sendto(sock, buf, strlen(buf), 0, (struct sockaddr *)&addr, addrlen);
+  // packetsSent++;
   // if (status < 0) {
   //   perror("sendto");
   //   exit(1);
   // }
-
+  // printf("%d\n", packetsSent);
   close(sock); // Close the socket when done
 }
