@@ -28,7 +28,7 @@ void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
   addr.sin_family = AF_INET;
   addr.sin_port = htons(4447);
   addrlen = sizeof(addr);
-  addr.sin_addr.s_addr = inet_addr("224.0.0.1");
+  addr.sin_addr.s_addr = inet_addr("230.0.0.1");
 
   /* Use the actual length of the data in buf */
   status =

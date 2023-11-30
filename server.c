@@ -46,7 +46,7 @@ int main() {
     exit(1);
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr("224.0.0.1");
+  mreq.imr_multiaddr.s_addr = inet_addr("230.0.0.1");
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 
   /* Join the Multicast Group */

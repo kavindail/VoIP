@@ -83,6 +83,7 @@ void playRecordedAudio(const std::string &filename) {
 }
 
 int main() {
+
   playRecordedAudio("output.bin");
 
   return 0;
