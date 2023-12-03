@@ -52,7 +52,6 @@ void playRecordedAudio(const std::string &filename) {
     return;
   }
 
-  // Read the recorded data from the file and play it back
   const int bufferSize = FRAMES_PER_BUFFER;
   float buffer[bufferSize];
 
@@ -64,7 +63,14 @@ void playRecordedAudio(const std::string &filename) {
     }
   }
 
-  // Stop and close the PortAudio stream
+  std::streamsize bytesRead = inputFile.gcount() * sizeof(float);
+
+  inputFile.seekg(0, std::ios::beg);
+
+  inputFile.seekg(bytesRead, std::ios::cur);
+
+  std::ofstream(filename, std::ios::binary | std::ios::trunc).close();
+
   err = Pa_StopStream(stream);
   if (err != paNoError) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
@@ -75,15 +81,12 @@ void playRecordedAudio(const std::string &filename) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
   }
 
-  // Close the input file
   inputFile.close();
 
-  // Terminate PortAudio
   Pa_Terminate();
 }
 
 int main() {
-
   while (1) {
     playRecordedAudio("output.bin");
   }
