@@ -84,7 +84,9 @@ void playRecordedAudio(const std::string &filename) {
 
 int main() {
 
-  playRecordedAudio("output.bin");
+  while (1) {
+    playRecordedAudio("output.bin");
+  }
 
   return 0;
 }

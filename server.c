@@ -58,6 +58,7 @@ int main() {
 
   /* receive messages destined for this multicast group */
   while (1) {
+
     status =
         recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
 
@@ -72,6 +73,7 @@ int main() {
       printf("fwrite() failed: %zu of %d bytes written\n", written, status);
       exit(1);
     }
+
     fflush(outputFile);
 
     // Print received data (binary) to console
