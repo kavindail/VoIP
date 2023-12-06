@@ -10,14 +10,10 @@
 #include <time.h>
 #include <unistd.h>
 
-// Client is the program that sends data across the sockets
-// This is where data will be transmitted in UDP sockets across the server
-// int packetsSent = 0;
 void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
 
-  /* set up socket */
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
     perror("socket");
@@ -30,13 +26,11 @@ void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
   addrlen = sizeof(addr);
   addr.sin_addr.s_addr = inet_addr("230.0.0.1");
 
-  /* Use the actual length of the data in buf */
   status =
       sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);
   if (status < 0) {
     perror("sendto");
     exit(1);
   }
-
   close(sock);
 }

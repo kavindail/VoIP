@@ -16,7 +16,6 @@ void playRecordedAudio(const std::string &filename) {
   PaStream *stream;
   PaStreamParameters outputParameters;
 
-  // Get the default output device
   outputParameters.device = Pa_GetDefaultOutputDevice();
   if (outputParameters.device == paNoDevice) {
     std::cerr << "Error: No default output device." << std::endl;
@@ -31,7 +30,6 @@ void playRecordedAudio(const std::string &filename) {
       Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
   outputParameters.hostApiSpecificStreamInfo = NULL;
 
-  // Open a PortAudio stream with the specified parameters and callback function
   err = Pa_OpenStream(&stream, NULL, &outputParameters, SAMPLE_RATE,
                       FRAMES_PER_BUFFER, paClipOff, NULL, NULL);
   if (err != paNoError) {
@@ -40,10 +38,8 @@ void playRecordedAudio(const std::string &filename) {
     return;
   }
 
-  // Open the recorded file for reading binary data
   std::ifstream inputFile(filename, std::ios::binary);
 
-  // Start the PortAudio stream
   err = Pa_StartStream(stream);
   if (err != paNoError) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
@@ -64,11 +60,8 @@ void playRecordedAudio(const std::string &filename) {
   }
 
   std::streamsize bytesRead = inputFile.gcount() * sizeof(float);
-
   inputFile.seekg(0, std::ios::beg);
-
   inputFile.seekg(bytesRead, std::ios::cur);
-
   std::ofstream(filename, std::ios::binary | std::ios::trunc).close();
 
   err = Pa_StopStream(stream);

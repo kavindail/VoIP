@@ -1,25 +1,23 @@
 ## Voice Over Internet Protocol
 
-## Backlog
+Voice Over IP application that transmits data through UDP packets and played back in real time by the receiver
+Meant to simulate a Voice Over IP telephone
 
-**Server (Speaker)**: source of audio stream. server captures audio data, encodes it using a codec to reduce its size, then sends it over the network to clients.
-**Clients (Listeners)**: recipients of audio stream. Each client receives the audio data from the server, decodes it, and plays the decoded audio.
+## Compilation steps
 
-**Audio Encoding/Decoding (Codec)**:In VoIP, audio data is encoded to reduce its size for transmission, and then decoded on the client’s end.
-Common codecs for this purpose include AAC, MP3, Opus, and others.
+These compilation steps are for Linux/Unix if on Windows or anything else idea is the same just compile with where the port audio library is located on your computer
 
-**Streaming Protocol**: This is the method used to send the audio data over the network. There are many protocols available for this purpose, but a common choice for audio streaming is the
-Real-Time Streaming Protocol (RTSP).
+VoiceOverIP Compilation
+**_gcc -c client.c -o client.o_**
+**_g++ -c RecordAudio.cpp -o RecordAudio.o -I/opt/homebrew/Cellar/portaudio/19.7.0/include_**
+**_g++ client.o RecordAudio.o -o VoiceOverIp -L/opt/homebrew/Cellar/portaudio/19.7.0/lib -lportaudio_**
+**_./VoiceOverIp_**
 
-Network: Will be using the internet with an IP address to send the data over
+PlayBack Audio Compilation
+**_g++ -I/opt/homebrew/Cellar/portaudio/19.7.0/include -c PlaybackAudio.cpp -o PlaybackAudio.o_**
+**_g++ -o PlaybackAudio PlaybackAudio.o -L/opt/homebrew/Cellar/portaudio/19.7.0/lib -lportaudio_**
+**_./PlaybackAudio_**
 
-Serverside audio is recorded -> Sound -> Encode using a codec-> Binary Data -> Send over IP(Using RTSP)-> Client -> Decode using a codec -> Play audio
-
-## Order of events
-
-1. The server starts and waits for clients to connect.
-2. Each client starts and connects to the server.
-3. The server begins capturing audio data from the microphone.
-4. The audio data is encoded using a codec.
-5. The encoded audio data is sent to all connected clients using RTSP(Realtime streaming protocl).
-6. Each client receives the audio data, decodes it (using a codec), and plays it through the speakers.
+Server Compilation
+**_gcc server.c -o server_**
+**_./server_**
