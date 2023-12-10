@@ -20,7 +20,11 @@ VoiceOverIP Compilation
 PlayBack Audio Compilation
 
 **_g++ -I/opt/homebrew/Cellar/portaudio/19.7.0/include -c PlaybackAudio.cpp -o PlaybackAudio.o_**
+
+
 **_g++ -o PlaybackAudio PlaybackAudio.o -L/opt/homebrew/Cellar/portaudio/19.7.0/lib -lportaudio_**
+
+
 **_./PlaybackAudio_**
 
 -----------------------------------------------------------------------------------------
