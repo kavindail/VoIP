@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (15)
+#define LATENCY_MS (6)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
 
