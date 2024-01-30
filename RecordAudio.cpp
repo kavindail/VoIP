@@ -4,7 +4,7 @@
 #include <iostream>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (2)
+#define LATENCY_MS (25)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 
 static int recordCallback(const void *inputBuffer, void *outputBuffer,
