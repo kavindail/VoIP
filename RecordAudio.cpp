@@ -1,41 +1,17 @@
+#include "PortAudioCallbacks.cpp"
 #include "client.h"
 #include "portaudio.h"
+#include <cstdint>
 #include <fstream>
 #include <iostream>
-
-#define SAMPLE_RATE (44100)
-#define LATENCY_MS (170)
-#define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
-
-#include <cstdint>
 #include <vector>
 
-std::vector<uint8_t> compressAudioData(const float *input, unsigned long size) {
-  std::vector<uint8_t> compressedData;
-  for (unsigned long i = 0; i < size; ++i) {
-    compressedData.push_back(static_cast<uint8_t>(input[i] * 255.0f));
-  }
-  return compressedData;
-}
-
-static int recordCallback(const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo *timeInfo,
-                          PaStreamCallbackFlags statusFlags, void *userData) {
-
-  const float *in = (const float *)inputBuffer;
-  auto compressedData = compressAudioData(in, framesPerBuffer);
-
-  sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()),
-                   compressedData.size());
-
-  std::cout << "Original size: " << (framesPerBuffer * sizeof(float))
-            << ", Compressed size: " << compressedData.size() << std::endl;
-
-  return paContinue;
-}
+#define SAMPLE_RATE (44100)
+#define LATENCY_MS (95)
+#define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 
 int main() {
+  PortAudioCallbacks callback;
   PaError err = Pa_Initialize();
   if (err != paNoError) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
@@ -59,7 +35,7 @@ int main() {
   inputParameters.hostApiSpecificStreamInfo = NULL;
 
   err = Pa_OpenStream(&stream, &inputParameters, NULL, SAMPLE_RATE,
-                      FRAMES_PER_BUFFER, paClipOff, recordCallback, 0);
+                      FRAMES_PER_BUFFER, paClipOff, callback.recordCallback, 0);
   if (err != paNoError) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
     Pa_Terminate();
