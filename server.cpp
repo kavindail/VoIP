@@ -9,21 +9,39 @@
 #include <unistd.h>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (6)
+#define LATENCY_MS (49)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
+
+#include <cstdint>
+#include <iostream>
+#include <vector>
+
+#include <cstdint>
+#include <vector>
+
+std::vector<float> decompressAudioData(const uint8_t *input,
+                                       unsigned long size) {
+  std::vector<float> decompressedData;
+  for (unsigned long i = 0; i < size; ++i) {
+    decompressedData.push_back(input[i] / 255.0f);
+  }
+  return decompressedData;
+}
 
 static int playCallback(const void *inputBuffer, void *outputBuffer,
                         unsigned long framesPerBuffer,
                         const PaStreamCallbackTimeInfo *timeInfo,
                         PaStreamCallbackFlags statusFlags, void *userData) {
   float *out = (float *)outputBuffer;
-  float *buf = (float *)userData;
-  unsigned long i;
+  uint8_t *compressedData = (uint8_t *)userData;
+  auto decompressedData = decompressAudioData(compressedData, 2160);
 
-  for (i = 0; i < framesPerBuffer; i++) {
-    *out++ = buf[i];
+  for (unsigned long i = 0; i < framesPerBuffer && i < decompressedData.size();
+       i++) {
+    out[i] = decompressedData[i];
   }
+
   return paContinue;
 }
 

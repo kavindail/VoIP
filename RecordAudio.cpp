@@ -4,8 +4,19 @@
 #include <iostream>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (6)
+#define LATENCY_MS (49)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
+
+#include <cstdint>
+#include <vector>
+
+std::vector<uint8_t> compressAudioData(const float *input, unsigned long size) {
+  std::vector<uint8_t> compressedData;
+  for (unsigned long i = 0; i < size; ++i) {
+    compressedData.push_back(static_cast<uint8_t>(input[i] * 255.0f));
+  }
+  return compressedData;
+}
 
 static int recordCallback(const void *inputBuffer, void *outputBuffer,
                           unsigned long framesPerBuffer,
@@ -13,9 +24,14 @@ static int recordCallback(const void *inputBuffer, void *outputBuffer,
                           PaStreamCallbackFlags statusFlags, void *userData) {
 
   const float *in = (const float *)inputBuffer;
+  auto compressedData = compressAudioData(in, framesPerBuffer);
 
-  sendDataToSocket((const char *)inputBuffer, framesPerBuffer * sizeof(float));
-  std::cout << (const char *)inputBuffer;
+  sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()),
+                   compressedData.size());
+
+  std::cout << "Original size: " << (framesPerBuffer * sizeof(float))
+            << ", Compressed size: " << compressedData.size() << std::endl;
+
   return paContinue;
 }
 
