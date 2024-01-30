@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (49)
+#define LATENCY_MS (170)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
 
@@ -35,7 +35,7 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
                         PaStreamCallbackFlags statusFlags, void *userData) {
   float *out = (float *)outputBuffer;
   uint8_t *compressedData = (uint8_t *)userData;
-  auto decompressedData = decompressAudioData(compressedData, 2160);
+  auto decompressedData = decompressAudioData(compressedData, 7497);
 
   for (unsigned long i = 0; i < framesPerBuffer && i < decompressedData.size();
        i++) {
