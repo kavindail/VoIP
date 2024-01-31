@@ -39,7 +39,7 @@ public:
     float *out = (float *)outputBuffer;
     uint8_t *compressedData = (uint8_t *)userData;
     CompressionAlgorithm compressor;
-    auto decompressedData = compressor.decompressAudioData(compressedData, 661);
+    auto decompressedData = compressor.decompressAudioData(compressedData, 2646);
 
     for (unsigned long i = 0;
          i < framesPerBuffer && i < decompressedData.size(); i++) {

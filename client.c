@@ -13,6 +13,7 @@
 void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
+  
 
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {

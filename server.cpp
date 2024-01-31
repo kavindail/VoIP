@@ -1,4 +1,3 @@
-#include "CompressionAlgorithm.cpp"
 #include "PortAudioCallbacks.cpp"
 #include <arpa/inet.h>
 #include <cstdint>
@@ -14,11 +13,10 @@
 #include <vector>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (15)
+#define LATENCY_MS (60)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
 #define PORT 4447
-std::string multiCastAddress = "230.0.0.1";
 
 int main() {
   struct sockaddr_in addr;
@@ -47,12 +45,11 @@ int main() {
 
   outputParameters.channelCount = 1;
   outputParameters.sampleFormat = paFloat32;
-  outputParameters.suggestedLatency =
-      Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
+  // outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultHighOutputLatency;
+  outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
   outputParameters.hostApiSpecificStreamInfo = NULL;
 
-  err = Pa_OpenStream(&stream, NULL, &outputParameters, SAMPLE_RATE,
-                      FRAMES_PER_BUFFER, paClipOff, callback.playCallback, buf);
+  err = Pa_OpenStream(&stream, NULL, &outputParameters, SAMPLE_RATE, FRAMES_PER_BUFFER, paClipOff, callback.playCallback, buf);
   if (err != paNoError) {
     fprintf(stderr, "PortAudio error: %s\n", Pa_GetErrorText(err));
     exit(1);
@@ -70,8 +67,7 @@ int main() {
     exit(EXIT_FAILURE);
   }
 
-  if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &so_reuseaddr,
-                 sizeof(so_reuseaddr)) < 0) {
+  if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &so_reuseaddr, sizeof(so_reuseaddr)) < 0) {
     perror("setsockopt(SO_REUSEADDR) failed");
     exit(EXIT_FAILURE);
   }
@@ -87,18 +83,16 @@ int main() {
     exit(EXIT_FAILURE);
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr(multiCastAddress);
+  mreq.imr_multiaddr.s_addr = inet_addr("230.0.0.1");
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-  if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) <
-      0) {
+  if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) < 0) {
     perror("setsockopt mreq");
     exit(1);
   }
 
   addrlen = sizeof(addr);
   while (1) {
-    status =
-        recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
+    status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
     if (status < 0) {
       perror("recvfrom");
       break;

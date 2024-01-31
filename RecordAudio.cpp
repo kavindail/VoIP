@@ -7,7 +7,7 @@
 #include <vector>
 
 #define SAMPLE_RATE (44100)
-#define LATENCY_MS (95)
+#define LATENCY_MS (60)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 
 int main() {
@@ -30,12 +30,11 @@ int main() {
 
   inputParameters.channelCount = 1;
   inputParameters.sampleFormat = paFloat32;
-  inputParameters.suggestedLatency =
-      Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
+  inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultHighInputLatency;
+  // inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
   inputParameters.hostApiSpecificStreamInfo = NULL;
 
-  err = Pa_OpenStream(&stream, &inputParameters, NULL, SAMPLE_RATE,
-                      FRAMES_PER_BUFFER, paClipOff, callback.recordCallback, 0);
+  err = Pa_OpenStream(&stream, &inputParameters, NULL, SAMPLE_RATE, FRAMES_PER_BUFFER, paClipOff, callback.recordCallback, 0);
   if (err != paNoError) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
     Pa_Terminate();
