@@ -26,8 +26,8 @@ public:
     sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()),
                      compressedData.size());
 
-    std::cout << "Original size: " << (framesPerBuffer * sizeof(float))
-              << ", Compressed size: " << compressedData.size() << std::endl;
+     std::cout << "Original size: " << (framesPerBuffer * sizeof(float))
+               << ", Compressed size: " << compressedData.size() << std::endl;
 
     return paContinue;
   }

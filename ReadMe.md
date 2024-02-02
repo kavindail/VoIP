@@ -19,3 +19,12 @@ g++ client.o RecordAudio.o -o VoiceOverIp -L/opt/homebrew/Cellar/portaudio/19.7.
 g++ -I/opt/homebrew/Cellar/portaudio/19.7.0/include -c server.cpp -o PlaybackAudio.o
 g++ -o PlaybackAudio PlaybackAudio.o -L/opt/homebrew/Cellar/portaudio/19.7.0/lib -lportaudio
 ./PlaybackAudio
+
+
+**Compile Record Video**
+
+g++ RecordVideo.cpp client.c -o RecordVideo -I/opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4 -L/opt/homebrew/Cellar/opencv/4.9.0_2/lib -lopencv_core -lopencv_highgui -lopencv_videoio -std=c++11
+
+**Compile Receive Video**
+
+g++ ReceiveVideo.cpp - o ReceiveVideo

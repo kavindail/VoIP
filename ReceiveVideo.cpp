@@ -1,9 +1,7 @@
-#include "PortAudioCallbacks.cpp"
 #include <arpa/inet.h>
 #include <cstdint>
 #include <iostream>
 #include <netinet/in.h>
-#include <portaudio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
@@ -25,41 +23,8 @@ int main() {
   struct ip_mreq mreq;
   float buf[FRAMES_PER_BUFFER];
   static int so_reuseaddr = TRUE;
-  PortAudioCallbacks callback;
 
-  PaStreamParameters outputParameters;
-  PaStream *stream;
-  PaError err;
 
-  err = Pa_Initialize();
-  if (err != paNoError) {
-    fprintf(stderr, "PortAudio error: %s\n", Pa_GetErrorText(err));
-    exit(1);
-  }
-
-  outputParameters.device = Pa_GetDefaultOutputDevice();
-  if (outputParameters.device == paNoDevice) {
-    fprintf(stderr, "Error: No default output device.\n");
-    exit(1);
-  }
-
-  outputParameters.channelCount = 1;
-  outputParameters.sampleFormat = paFloat32;
-  // outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultHighOutputLatency;
-  outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
-  outputParameters.hostApiSpecificStreamInfo = NULL;
-
-  err = Pa_OpenStream(&stream, NULL, &outputParameters, SAMPLE_RATE, FRAMES_PER_BUFFER, paClipOff, callback.playCallback, buf);
-  if (err != paNoError) {
-    fprintf(stderr, "PortAudio error: %s\n", Pa_GetErrorText(err));
-    exit(1);
-  }
-
-  err = Pa_StartStream(stream);
-  if (err != paNoError) {
-    fprintf(stderr, "PortAudio error: %s\n", Pa_GetErrorText(err));
-    exit(1);
-  }
 
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
@@ -99,9 +64,6 @@ int main() {
     }
   }
 
-  Pa_StopStream(stream);
-  Pa_CloseStream(stream);
-  Pa_Terminate();
   close(sock);
 
   return 0;
