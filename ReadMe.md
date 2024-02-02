@@ -27,4 +27,5 @@ g++ RecordVideo.cpp client.c -o RecordVideo -I/opt/homebrew/Cellar/opencv/4.9.0_
 
 **Compile Receive Video**
 
-g++ ReceiveVideo.cpp - o ReceiveVideo
+g++ ReceiveVideo.cpp -o ReceiveVideo -I/opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4 -L/opt/homebrew/Cellar/opencv/4.9.0_2/lib -lopencv_core -lopencv_highgui -lopencv_imgcodecs -std=c++11
+

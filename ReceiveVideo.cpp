@@ -10,6 +10,12 @@
 #include <unistd.h>
 #include <vector>
 
+#include <opencv2/opencv.hpp>
+#include <vector>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+
 #define SAMPLE_RATE (44100)
 #define LATENCY_MS (60)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
@@ -21,8 +27,11 @@ int main() {
   socklen_t addrlen;
   int sock, status;
   struct ip_mreq mreq;
-  float buf[FRAMES_PER_BUFFER];
+unsigned char buf[65536];
   static int so_reuseaddr = TRUE;
+
+    cv::namedWindow("Webcam", cv::WINDOW_NORMAL);
+    cv::Mat blankImage = cv::Mat::zeros(cv::Size(640, 480), CV_8UC3);
 
 
 
@@ -56,15 +65,30 @@ int main() {
   }
 
   addrlen = sizeof(addr);
-  while (1) {
-    status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
-    if (status < 0) {
-      perror("recvfrom");
-      break;
+  while (true) {
+        if (cv::waitKey(30) == 27) break; // Exit on ESC key
+        status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
+        if (status < 0) {
+            perror("recvfrom");
+            break;
+        }
+
+        std::vector<uchar> data(buf, buf + status);
+        cv::Mat frame = cv::imdecode(data, cv::IMREAD_COLOR);
+
+        if (frame.empty()) {
+            std::cerr << "Decoded frame is empty." << std::endl;
+            continue;
+        }
+
+        cv::imshow("Receiver window", frame);
+      if (cv::waitKey(30) == 27) break; 
+
+
     }
-  }
 
   close(sock);
+  cv::destroyAllWindows();
 
   return 0;
 }
