@@ -23,7 +23,7 @@ g++ -o PlaybackAudio PlaybackAudio.o -L/opt/homebrew/Cellar/portaudio/19.7.0/lib
 
 **Compile Record Video**
 
-g++ RecordVideo.cpp client.c -o RecordVideo -I/opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4 -L/opt/homebrew/Cellar/opencv/4.9.0_2/lib -lopencv_core -lopencv_highgui -lopencv_videoio -std=c++11
+g++ RecordVideo.cpp client.c -o RecordVideo -I/opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4 -L/opt/homebrew/Cellar/opencv/4.9.0_2/lib -lopencv_core -lopencv_highgui -lopencv_videoio -lopencv_imgproc -lopencv_imgcodecs -std=c++11
 
 **Compile Receive Video**
 

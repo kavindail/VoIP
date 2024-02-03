@@ -10,7 +10,7 @@
 #include <time.h>
 #include <unistd.h>
 
-void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
+void sendDataToSocket(const char *inputBuffer, size_t dataSize, int port) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
   
@@ -23,7 +23,7 @@ void sendDataToSocket(const char *inputBuffer, size_t dataSize) {
 
   bzero((char *)&addr, sizeof(addr));
   addr.sin_family = AF_INET;
-  addr.sin_port = htons(4447);
+  addr.sin_port = htons(port);
   addrlen = sizeof(addr);
   addr.sin_addr.s_addr = inet_addr("230.0.0.1");
 

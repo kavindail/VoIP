@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-void sendDataToSocket(const char *inputBuffer, size_t dataSize);
+void sendDataToSocket(const char *inputBuffer, size_t dataSize, int port);
 
 #ifdef __cplusplus
 }
