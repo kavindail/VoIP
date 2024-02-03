@@ -35,7 +35,7 @@ for(int i = 0; i < numOfFramesToCatpure; i++) {
 
     std::cout << "Encoded frame size in bytes: " << encoded.size() << std::endl;
 
-    sendDataToSocket(reinterpret_cast<const char*>(encoded.data()), encoded.size()); // Send the encoded frame
+    sendDataToSocket(reinterpret_cast<const char*>(encoded.data()), encoded.size()); 
 
     std::cout << "Frame end" << std::endl;
 
