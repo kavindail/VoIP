@@ -27,7 +27,7 @@ int main() {
      compression_params.push_back(10); // 0 - 100
 
      cv::Mat resizedFrame; 
-     cv::resize(frame, resizedFrame, cv::Size(400, 300)); 
+     cv::resize(frame, resizedFrame, cv::Size(300, 200)); 
      cv::imencode(".jpg", resizedFrame, encoded, compression_params); 
 
      std::cout << "Encoded frame size in bytes: " << encoded.size() << std::endl;

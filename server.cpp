@@ -12,8 +12,8 @@
 #include <unistd.h>
 #include <vector>
 
-#define SAMPLE_RATE (44100)
-#define LATENCY_MS (60)
+#define SAMPLE_RATE (35000)
+#define LATENCY_MS (80)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
 #define PORT 4447

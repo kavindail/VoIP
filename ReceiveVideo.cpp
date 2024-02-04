@@ -66,6 +66,7 @@ unsigned char buf[65536];
 
   addrlen = sizeof(addr);
   while (true) {
+        
         if (cv::waitKey(30) == 27) break; // Exit on ESC key
         status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
         if (status < 0) {

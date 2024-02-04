@@ -29,3 +29,14 @@ g++ RecordVideo.cpp client.c -o RecordVideo -I/opt/homebrew/Cellar/opencv/4.9.0_
 
 g++ ReceiveVideo.cpp -o ReceiveVideo -I/opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4 -L/opt/homebrew/Cellar/opencv/4.9.0_2/lib -lopencv_core -lopencv_highgui -lopencv_imgcodecs -std=c++11
 
+
+**Or Run build script**
+
+chmod +x build_voip.sh
+./build_voip.sh
+
+
+
+
+
+
