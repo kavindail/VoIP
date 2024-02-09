@@ -33,10 +33,7 @@ g++ ReceiveVideo.cpp -o ReceiveVideo -I/opt/homebrew/Cellar/opencv/4.9.0_2/inclu
 **Or Run build script**
 
 chmod +x build_voip.sh
+
 ./build_voip.sh
-
-
-
-
 
 

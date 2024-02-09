@@ -23,11 +23,9 @@ public:
     CompressionAlgorithm compressor;
     auto compressedData = compressor.compressAudioData(in, framesPerBuffer);
 
-    sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()),
-                     compressedData.size(), 4447);
+    sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()), compressedData.size(), 4447);
 
-     std::cout << "Original size: " << (framesPerBuffer * sizeof(float))
-               << ", Compressed size: " << compressedData.size() << std::endl;
+     std::cout << "Original size: " << (framesPerBuffer * sizeof(float)) << ", Compressed size: " << compressedData.size() << std::endl;
 
     return paContinue;
   }
@@ -39,11 +37,10 @@ public:
     float *out = (float *)outputBuffer;
     uint8_t *compressedData = (uint8_t *)userData;
     CompressionAlgorithm compressor;
-    auto decompressedData = compressor.decompressAudioData(compressedData, 6000);
+    auto decompressedData = compressor.decompressAudioData(compressedData, 5700);
 
-    for (unsigned long i = 0;
-         i < framesPerBuffer && i < decompressedData.size(); i++) {
-      out[i] = decompressedData[i];
+    for (unsigned long i = 0; i < framesPerBuffer && i < decompressedData.size(); i++) {
+       out[i] = decompressedData[i];
     }
 
     return paContinue;

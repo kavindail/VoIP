@@ -13,7 +13,7 @@
 #include <vector>
 
 #define SAMPLE_RATE (6000)
-#define LATENCY_MS (1000)
+#define LATENCY_MS (950)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
 #define PORT 4447

@@ -30,10 +30,6 @@ int main() {
 unsigned char buf[65536];
   static int so_reuseaddr = TRUE;
 
-    cv::namedWindow("Webcam", cv::WINDOW_NORMAL);
-    cv::Mat blankImage = cv::Mat::zeros(cv::Size(640, 480), CV_8UC3);
-
-
 
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
@@ -73,7 +69,6 @@ unsigned char buf[65536];
             perror("recvfrom");
             break;
         }
-
         std::vector<uchar> data(buf, buf + status);
         cv::Mat frame = cv::imdecode(data, cv::IMREAD_COLOR);
 
@@ -81,15 +76,14 @@ unsigned char buf[65536];
             std::cerr << "Decoded frame is empty." << std::endl;
             continue;
         }
-
         cv::imshow("Receiver window", frame);
-      if (cv::waitKey(30) == 27) break; 
 
-
-    }
+        if (cv::waitKey(30) == 27){
+          break;
+         }
+     } 
 
   close(sock);
   cv::destroyAllWindows();
-
   return 0;
 }
