@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 class CompressionAlgorithm {
+
 public:
   std::vector<float> decompressAudioData(const uint8_t *input, unsigned long size) {
   std::vector<float> decompressedData;

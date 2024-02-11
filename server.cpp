@@ -26,7 +26,6 @@ int main() {
   float buf[FRAMES_PER_BUFFER];
   static int so_reuseaddr = TRUE;
   PortAudioCallbacks callback;
-
   PaStreamParameters outputParameters;
   PaStream *stream;
   PaError err;

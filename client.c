@@ -13,7 +13,6 @@
 void sendDataToSocket(const char *inputBuffer, size_t dataSize, int port) {
   struct sockaddr_in addr;
   int addrlen, sock, status;
-  
 
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
@@ -27,8 +26,7 @@ void sendDataToSocket(const char *inputBuffer, size_t dataSize, int port) {
   addrlen = sizeof(addr);
   addr.sin_addr.s_addr = inet_addr("230.0.0.1");
 
-  status =
-      sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);
+  status = sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);
   if (status < 0) {
     perror("sendto");
     exit(1);

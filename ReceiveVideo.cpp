@@ -73,9 +73,10 @@ unsigned char buf[65536];
         cv::Mat frame = cv::imdecode(data, cv::IMREAD_COLOR);
 
         if (frame.empty()) {
-            std::cerr << "Decoded frame is empty." << std::endl;
-            continue;
+           std::cerr << "Decoded frame is empty." << std::endl;
+           continue;
         }
+
         cv::imshow("Receiver window", frame);
 
         if (cv::waitKey(30) == 27){
