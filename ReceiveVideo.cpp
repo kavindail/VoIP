@@ -20,7 +20,7 @@
 #define LATENCY_MS (60)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
-#define PORT 4448
+#define PORT 12345 
 
 int main() {
   struct sockaddr_in addr;
@@ -53,7 +53,7 @@ unsigned char buf[65536];
     exit(EXIT_FAILURE);
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr("230.0.0.1");
+  mreq.imr_multiaddr.s_addr = inet_addr("24.199.118.49");
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
   if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) < 0) {
     perror("setsockopt mreq");

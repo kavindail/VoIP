@@ -8,7 +8,7 @@ int main() {
   const int facetimeCamera = 0;
   const int continuityCamera = 1; 
   const int numOfFramesToCatpure = 10000;
-  const int compressionQuality = 30;
+  const int compressionQuality = 30; // 0 - 100
   const int windowWidth = 400;
   const int windowLength = 250;
   const int port = 4448;
@@ -29,7 +29,7 @@ int main() {
      std::vector<uchar> encoded; 
      std::vector<int> compression_params; 
      compression_params.push_back(cv::IMWRITE_JPEG_QUALITY); 
-     compression_params.push_back(compressionQuality); // 0 - 100
+     compression_params.push_back(compressionQuality); 
 
      cv::Mat resizedFrame; 
      cv::resize(frame, resizedFrame, cv::Size(windowWidth, windowLength)); 
