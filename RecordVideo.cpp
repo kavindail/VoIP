@@ -8,10 +8,10 @@ int main() {
   const int facetimeCamera = 0;
   const int continuityCamera = 1; 
   const int numOfFramesToCatpure = 10000;
-  const int compressionQuality = 30; // 0 - 100
+  const int compressionQuality = 10; // 0 - 100
   const int windowWidth = 400;
   const int windowLength = 250;
-  const int port = 4448;
+  const int port = 54999;
   cv::VideoCapture cap(facetimeCamera); 
 
   if (!cap.isOpened()) {
@@ -35,14 +35,14 @@ int main() {
      cv::resize(frame, resizedFrame, cv::Size(windowWidth, windowLength)); 
      cv::imencode(".jpg", resizedFrame, encoded, compression_params); 
 
-     std::cout << "Encoded frame size in bytes: " << encoded.size() << std::endl;
+     std::cout << "Frame size: " << encoded.size() << std::endl;
 
      sendDataToSocket(reinterpret_cast<const char*>(encoded.data()), encoded.size(), port); 
 
      decodedFrame = cv::imdecode(encoded, cv::IMREAD_COLOR);
      cv::imshow("Webcam", decodedFrame); 
 
-    if (cv::waitKey(30) == 27) break; 
+    if (cv::waitKey(100) == 27) break; 
   }
 
     cap.release();

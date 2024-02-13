@@ -20,14 +20,14 @@
 #define LATENCY_MS (60)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
-#define PORT 12345 
-
+#define PORT 54999
+ 
 int main() {
   struct sockaddr_in addr;
   socklen_t addrlen;
   int sock, status;
   struct ip_mreq mreq;
-unsigned char buf[65536];
+unsigned char buf[100000];
   static int so_reuseaddr = TRUE;
 
 
@@ -36,7 +36,6 @@ unsigned char buf[65536];
     perror("socket creation failed");
     exit(EXIT_FAILURE);
   }
-
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &so_reuseaddr, sizeof(so_reuseaddr)) < 0) {
     perror("setsockopt(SO_REUSEADDR) failed");
     exit(EXIT_FAILURE);
@@ -44,23 +43,15 @@ unsigned char buf[65536];
 
   bzero((char *)&addr, sizeof(addr));
   addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = htonl(INADDR_ANY);
+  addr.sin_addr.s_addr = htonl(INADDR_ANY); 
   addr.sin_port = htons(PORT);
-
   if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
     perror("bind failed");
     close(sock);
     exit(EXIT_FAILURE);
   }
 
-  mreq.imr_multiaddr.s_addr = inet_addr("24.199.118.49");
-  mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-  if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq)) < 0) {
-    perror("setsockopt mreq");
-    exit(1);
-  }
 
-  addrlen = sizeof(addr);
   while (true) {
         
         if (cv::waitKey(30) == 27) break; // Exit on ESC key

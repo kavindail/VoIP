@@ -6,8 +6,8 @@
 #include <iostream>
 #include <vector>
 
-#define SAMPLE_RATE (6000)
-#define LATENCY_MS (950)
+#define SAMPLE_RATE (3000)
+#define LATENCY_MS (100)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 
 int main() {
@@ -17,7 +17,6 @@ int main() {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
     return 1;
   }
-
   PaStream *stream;
   PaStreamParameters inputParameters;
 
