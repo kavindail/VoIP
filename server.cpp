@@ -13,12 +13,13 @@
 #include <vector>
 
 #define SAMPLE_RATE (3000)
-#define LATENCY_MS (100)
+#define LATENCY_MS (300)
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define TRUE 1
 #define PORT 55000 
 
 int main() {
+  std::cout << "Listening to port " << PORT << std::endl;
   struct sockaddr_in addr;
   socklen_t addrlen;
   int sock, status;
@@ -79,7 +80,7 @@ int main() {
   addrlen = sizeof(addr);
   while (1) {
     status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
-    std::cout << buf << std::endl;
+    std::cout << "Received data"<< std::endl;
     std::cout << status << std::endl;
     if (status < 0) {
       perror("recvfrom");

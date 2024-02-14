@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <vector>
 
+#define PORT 55000
 class PortAudioCallbacks {
 public:
   static int recordCallback(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer, const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags, void *userData) {
@@ -21,7 +22,8 @@ public:
     CompressionAlgorithm compressor;
     auto compressedData = compressor.compressAudioData(in, framesPerBuffer);
 
-    sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()), compressedData.size(), 55000);
+    sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()), compressedData.size(), PORT);
+    std::cout << "Sending to port "  << PORT << std::endl;
 
     std::cout << "Original size: " << (framesPerBuffer * sizeof(float)) << ", Compressed size: " << compressedData.size() << std::endl;
     return paContinue;
@@ -31,7 +33,7 @@ public:
     float *out = (float *)outputBuffer;
     uint8_t *compressedData = (uint8_t *)userData;
     CompressionAlgorithm compressor;
-    auto decompressedData = compressor.decompressAudioData(compressedData, 300);
+    auto decompressedData = compressor.decompressAudioData(compressedData, 900);
 
     for (unsigned long i = 0; i < framesPerBuffer && i < decompressedData.size(); i++) {
        out[i] = decompressedData[i];

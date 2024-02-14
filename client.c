@@ -24,6 +24,8 @@ void sendDataToSocket(const char *inputBuffer, size_t dataSize, int port) {
   addr.sin_family = AF_INET;
   addr.sin_port = htons(port);
   addrlen = sizeof(addr);
+  
+  //Server address
   addr.sin_addr.s_addr = inet_addr("24.199.118.49");
 
   status = sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);

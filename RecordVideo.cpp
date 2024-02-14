@@ -13,6 +13,7 @@ int main() {
   const int windowLength = 250;
   const int port = 54999;
   cv::VideoCapture cap(facetimeCamera); 
+  std::cout << "Sending to port: " << port << std::endl;
 
   if (!cap.isOpened()) {
       std::cerr << "Failed to open webcam\n";

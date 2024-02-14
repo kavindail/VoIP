@@ -23,6 +23,7 @@
 #define PORT 54999
  
 int main() {
+  std::cout << "Listening on port "  << PORT << std::endl;
   struct sockaddr_in addr;
   socklen_t addrlen;
   int sock, status;
@@ -54,7 +55,7 @@ unsigned char buf[100000];
 
   while (true) {
         
-        if (cv::waitKey(30) == 27) break; // Exit on ESC key
+        if (cv::waitKey(30) == 27) break; //May need to change to 100 
         status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
         if (status < 0) {
             perror("recvfrom");
