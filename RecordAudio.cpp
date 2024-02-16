@@ -1,4 +1,5 @@
 #include "PortAudioCallbacks.cpp"
+#include <fcntl.h>
 #include "client.h"
 #include "portaudio.h"
 #include <cstdint>

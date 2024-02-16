@@ -22,7 +22,7 @@ public:
     CompressionAlgorithm compressor;
     auto compressedData = compressor.compressAudioData(in, framesPerBuffer);
 
-    sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()), compressedData.size(), PORT);
+    sendDataToSocket(reinterpret_cast<const char *>(compressedData.data()), compressedData.size(), 55000);
     std::cout << "Sending to port "  << PORT << std::endl;
 
     std::cout << "Original size: " << (framesPerBuffer * sizeof(float)) << ", Compressed size: " << compressedData.size() << std::endl;

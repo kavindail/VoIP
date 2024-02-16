@@ -1,5 +1,4 @@
 #include <arpa/inet.h>
-#include <cstdint>
 #include <iostream>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -9,74 +8,87 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <vector>
-
 #include <opencv2/opencv.hpp>
-#include <vector>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
+#include <fcntl.h>
 
-#define SAMPLE_RATE (44100)
-#define LATENCY_MS (60)
-#define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
-#define TRUE 1
-#define PORT 54999
- 
+#define PORT 47092
+
 int main() {
-  std::cout << "Listening on port "  << PORT << std::endl;
-  struct sockaddr_in addr;
-  socklen_t addrlen;
-  int sock, status;
-  struct ip_mreq mreq;
-unsigned char buf[100000];
-  static int so_reuseaddr = TRUE;
+    std::cout << "Listening on port " << PORT << std::endl;
+    struct sockaddr_in addr;
+    socklen_t addrlen; int sock, status;
+    const int bufSize = 100000; 
+    unsigned char buf[bufSize];
+    static int so_reuseaddr = 1;
 
+    sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) {
+        perror("socket creation failed");
+        exit(EXIT_FAILURE);
+    }
+    if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &so_reuseaddr, sizeof(so_reuseaddr)) < 0) {
+        perror("setsockopt(SO_REUSEADDR) failed");
+        exit(EXIT_FAILURE);
+    }
 
-  sock = socket(AF_INET, SOCK_DGRAM, 0);
-  if (sock < 0) {
-    perror("socket creation failed");
+int flags = fcntl(sock, F_GETFL, 0);
+if (flags < 0) {
+    perror("fcntl(F_GETFL) failed");
     exit(EXIT_FAILURE);
-  }
-  if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &so_reuseaddr, sizeof(so_reuseaddr)) < 0) {
-    perror("setsockopt(SO_REUSEADDR) failed");
+}
+flags |= O_NONBLOCK;
+if (fcntl(sock, F_SETFL, flags) < 0) {
+    perror("fcntl(F_SETFL) failed");
     exit(EXIT_FAILURE);
-  }
+}
 
-  bzero((char *)&addr, sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-  addr.sin_port = htons(PORT);
-  if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-    perror("bind failed");
-    close(sock);
-    exit(EXIT_FAILURE);
-  }
+    int so_reuseport = 1;
+    if (setsockopt(sock, SOL_SOCKET, SO_REUSEPORT, &so_reuseport, sizeof(so_reuseport)) < 0) {
+        perror("setsockopt(SO_REUSEPORT) failed");
+        exit(EXIT_FAILURE);
+    }
 
+    bzero((char *)&addr, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    addr.sin_port = htons(PORT);
+    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+        perror("bind failed");
+        close(sock);
+        exit(EXIT_FAILURE);
+    }
 
-  while (true) {
-        
-        if (cv::waitKey(30) == 27) break; //May need to change to 100 
-        status = recvfrom(sock, buf, sizeof(buf), 0, (struct sockaddr *)&addr, &addrlen);
-        if (status < 0) {
-            perror("recvfrom");
+while (true) {
+    addrlen = sizeof(addr);
+    status = recvfrom(sock, buf, bufSize, 0, (struct sockaddr *)&addr, &addrlen);
+    if (status < 0) {
+        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            usleep(10000); // Optionally sleep for 10ms to reduce CPU usage
+            continue; // Continue to the next iteration to avoid busy looping at full CPU
+        } else {
+            perror("recvfrom error");
             break;
-        }
-        std::vector<uchar> data(buf, buf + status);
+        } }
+
+    std::string header(reinterpret_cast<char*>(buf), 6);
+    if (header == "VIDEO:") {
+        std::vector<uchar> data(buf + 6, buf + status); // Extract the data following the "VIDEO:" header
         cv::Mat frame = cv::imdecode(data, cv::IMREAD_COLOR);
 
         if (frame.empty()) {
-           std::cerr << "Decoded frame is empty." << std::endl;
-           continue;
+            std::cerr << "Decoded frame is empty." << std::endl;
+            continue;
         }
 
         cv::imshow("Receiver window", frame);
+    } else {
+        std::cerr << "Received packet is not a video frame." << std::endl;
+        continue;
+    }
 
-        if (cv::waitKey(30) == 27){
-          break;
-         }
-     } 
+}
 
-  close(sock);
-  cv::destroyAllWindows();
-  return 0;
+    close(sock);
+    cv::destroyAllWindows();
+    return 0;
 }

@@ -1,15 +1,17 @@
-#include "PortAudioCallbacks.cpp"
-#include <fcntl.h>
 #include <arpa/inet.h>
-#include <cstdint>
 #include <iostream>
 #include <netinet/in.h>
-#include <portaudio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <strings.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <unistd.h>
+#include <opencv2/opencv.hpp>
+#include <fcntl.h>
+#include "PortAudioCallbacks.cpp"
+#include <cstdint>
+#include <portaudio.h>
 #include <unistd.h>
 #include <vector>
 
@@ -18,13 +20,15 @@
 #define FRAMES_PER_BUFFER (SAMPLE_RATE * LATENCY_MS / 1000)
 #define PORT 47092
 
-int main() {
+int main(){
     std::cout << "Listening to port " << PORT << std::endl;
     struct sockaddr_in addr;
     socklen_t addrlen;
     int sock, status;
-    char packetBuffer[FRAMES_PER_BUFFER * sizeof(float) + 64]; 
+    char packetBuffer[FRAMES_PER_BUFFER * sizeof(float) + 64000]; 
+    const int bufSize = 1000000; 
     float audioBuffer[FRAMES_PER_BUFFER]; 
+    unsigned char buf[bufSize];
     static int so_reuseaddr = 1;
     PortAudioCallbacks callback;
     PaStreamParameters outputParameters;
@@ -79,53 +83,58 @@ if (fcntl(sock, F_SETFL, flags) < 0) {
     exit(EXIT_FAILURE);
 }
 
-    int so_reuseport = 1; 
+int so_reuseport = 1; 
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEPORT, &so_reuseport, sizeof(so_reuseport)) < 0) {
         perror("setsockopt(SO_REUSEPORT) failed");
         exit(EXIT_FAILURE);
     }
 
-    bzero((char *)&addr, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    addr.sin_port = htons(PORT);
-    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+bzero((char *)&addr, sizeof(addr));
+addr.sin_family = AF_INET;
+addr.sin_addr.s_addr = htonl(INADDR_ANY);
+addr.sin_port = htons(PORT);
+  if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
         perror("bind failed");
         close(sock);
         exit(EXIT_FAILURE);
-    }
+   }
 
-    std::cout << "Waiting for data..." << std::endl;
-    addrlen = sizeof(addr);
+std::cout << "Waiting for data..." << std::endl;
 while (1) {
     status = recvfrom(sock, packetBuffer, sizeof(packetBuffer), 0, (struct sockaddr *)&addr, &addrlen);
-    if (status < 0) {
-        if (errno == EAGAIN || errno == EWOULDBLOCK) {
-            usleep(10000); 
-            continue; 
-        } else {
-            perror("recvfrom error");
-            break; 
-        }
-    }
-
+    addrlen = sizeof(addr);
+    std::string header(reinterpret_cast<char*>(packetBuffer), 6);
+if (status > 6) {
     if (strncmp(packetBuffer, "VOICE:", 6) == 0) {
         std::cout << "Received VOICE packet" << std::endl;
         size_t dataSize = status - 6; 
-        if (dataSize > sizeof(audioBuffer)) {
+    if (dataSize > sizeof(audioBuffer)) {
             dataSize = sizeof(audioBuffer);
         }
         memcpy(audioBuffer, packetBuffer + 6, dataSize); 
+    }else if(strncmp(packetBuffer, "VIDEO:", 6)== 0){
+      std::cout << "Received VIDEO packet" << std::endl;
+        std::vector<uchar> data(packetBuffer + 6, packetBuffer + status); 
+        cv::Mat frame = cv::imdecode(data, cv::IMREAD_COLOR);
+        if (frame.empty()) {
+            std::cerr << "Decoded frame is empty." << std::endl;
+            continue;
+        }else{
+        cv::imshow("Receiver window", frame);
+        cv::waitKey(1);
+        }
     } else {
-        std::cout << "Ignoring non-VOICE packet" << std::endl;
-      sleep(1); 
     }
+  }else{
+  }
 }
 
     Pa_StopStream(stream);
     Pa_CloseStream(stream);
     Pa_Terminate();
+    cv::destroyAllWindows();
     close(sock);
 
     return 0;
+  
 }
