@@ -1,10 +1,9 @@
-
 #!/bin/bash
 
 set -e
 
 PORTAUDIO_PATH="/opt/homebrew/Cellar/portaudio/19.7.0"
-OPENCV_PATH="/opt/homebrew/Cellar/opencv/4.9.0_2"
+OPENCV_PATH="/opt/homebrew/opt/opencv" # Updated to use `brew --prefix opencv` result
 
 echo "------------------------------------\n"
 echo "Compiling client..."
@@ -31,11 +30,11 @@ g++ ReceiveVideo.cpp -o ReceiveVideo -I${OPENCV_PATH}/include/opencv4 -L${OPENCV
 echo "------------------------------------\n"
 echo "Compiling VideoAndVoice Combined Handler"
 g++ VideoAndVoiceHandler.cpp -o VideoAndVoiceHandler \
--I/opt/homebrew/Cellar/portaudio/19.7.0/include \
--L/opt/homebrew/Cellar/portaudio/19.7.0/lib -lportaudio \
--I/opt/homebrew/Cellar/opencv/4.9.0_2/include/opencv4 \
--L/opt/homebrew/Cellar/opencv/4.9.0_2/lib -lopencv_core -lopencv_highgui -lopencv_imgcodecs \
+-I${PORTAUDIO_PATH}/include \
+-L${PORTAUDIO_PATH}/lib -lportaudio \
+-I${OPENCV_PATH}/include/opencv4 \
+-L${OPENCV_PATH}/lib -lopencv_core -lopencv_highgui -lopencv_imgcodecs \
 -std=c++11
 echo "------------------------------------\n"
 
-echo "Compilation complete.\n----------------------------\nRun\n./VoiceOverIp\n./PlaybackAudio\n./RecordVideo\n./ReceiveVideo\n./VideoAndVoiceHandler\n----------------------------"
+echo -e "Compilation complete.\n----------------------------\nRun\n./VoiceOverIp\n./PlaybackAudio\n./RecordVideo\n./ReceiveVideo\n./VideoAndVoiceHandler\n----------------------------"
