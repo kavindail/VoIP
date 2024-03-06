@@ -63,8 +63,8 @@ while (true) {
     status = recvfrom(sock, buf, bufSize, 0, (struct sockaddr *)&addr, &addrlen);
     if (status < 0) {
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
-            usleep(10000); // Optionally sleep for 10ms to reduce CPU usage
-            continue; // Continue to the next iteration to avoid busy looping at full CPU
+            usleep(10000); 
+            continue; 
         } else {
             perror("recvfrom error");
             break;
@@ -72,7 +72,7 @@ while (true) {
 
     std::string header(reinterpret_cast<char*>(buf), 6);
     if (header == "VIDEO:") {
-        std::vector<uchar> data(buf + 6, buf + status); // Extract the data following the "VIDEO:" header
+        std::vector<uchar> data(buf + 6, buf + status); 
         cv::Mat frame = cv::imdecode(data, cv::IMREAD_COLOR);
 
         if (frame.empty()) {
