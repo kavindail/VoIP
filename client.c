@@ -24,10 +24,11 @@ void sendDataToSocket(const char *inputBuffer, size_t dataSize, int port) {
   addr.sin_port = htons(port);
   addrlen = sizeof(addr);
 
-  //Server address
+  // Server address
   addr.sin_addr.s_addr = inet_addr("192.168.1.69");
 
-  status = sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);
+  status =
+      sendto(sock, inputBuffer, dataSize, 0, (struct sockaddr *)&addr, addrlen);
   if (status < 0) {
     perror("sendto");
     exit(1);

@@ -1,8 +1,8 @@
 #include "PortAudioCallbacks.cpp"
-#include <fcntl.h>
 #include "client.h"
 #include "portaudio.h"
 #include <cstdint>
+#include <fcntl.h>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -30,11 +30,14 @@ int main() {
 
   inputParameters.channelCount = 1;
   inputParameters.sampleFormat = paFloat32;
-  inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultHighInputLatency;
-  // inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
+  inputParameters.suggestedLatency =
+      Pa_GetDeviceInfo(inputParameters.device)->defaultHighInputLatency;
+  // inputParameters.suggestedLatency =
+  // Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
   inputParameters.hostApiSpecificStreamInfo = NULL;
 
-  err = Pa_OpenStream(&stream, &inputParameters, NULL, SAMPLE_RATE, FRAMES_PER_BUFFER, paClipOff, callback.recordCallback, 0);
+  err = Pa_OpenStream(&stream, &inputParameters, NULL, SAMPLE_RATE,
+                      FRAMES_PER_BUFFER, paClipOff, callback.recordCallback, 0);
   if (err != paNoError) {
     std::cerr << "PortAudio error: " << Pa_GetErrorText(err) << std::endl;
     Pa_Terminate();
